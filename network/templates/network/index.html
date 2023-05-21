@@ -1,0 +1,93 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+{% if user.is_authenticated %}
+
+<h1>MAKE A POST</h1>
+<div id="form-container">
+<div class="form-group">
+<form id="create-post" action="#" enctype="multipart/form-data" method="post">
+
+    {% csrf_token %}
+    {{form.as_p}}
+    <div class="d-grid gap-2">
+    <input class="btn btn-primary btn-block" type="submit" value="Submit">
+    </div>
+
+</form>
+</div>
+</div>
+{% endif %}
+
+
+<h1>ALL POSTS</h1>
+<div class="page-navigation">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+</div>
+{% for post in page_obj %}
+
+<div class="post-container">
+<div class="post-title">{{ post.postTitle }}
+</div>
+{% if user == post.postAuthor %}
+<button id="edit-button-{{post.id}}" class="edit-button" onClick="toggle_edit2('{{post.id}}')">Edit Post</button>
+{% endif %}
+<div id="edit-container-{{post.id}}" style="display: none;">
+      <input id="save-edit-{{post.id}}" class="btn btn-primary btn-block" type="submit" value="Save Changes" onClick="save_edit('{{post.id}}')">     
+</div>
+<div id="post-body-{{post.id}}"> {{ post.postBody }} </div>
+<div class="post-byline">
+Posted by <a href="{% url 'profile' post.postAuthor  %}">{{ post.postAuthor }}</a> on: {{ post.postTime }}
+</div>
+
+<div id="likes-{{post.id}}">
+    
+This post has <span id="nlikes-{{post.id}}">{{post.likes}}</span> likes.
+<!-- show only if User is not the Post Author-->
+{% if user != post.postAuthor and user.is_authenticated%}
+<button id="like-button-{{post.id}}" class="like-button" onLoad="get_like_button_state('{{post.id}}')" onClick="like('{{post.id}}')">
+    {% if post.id in likedList %}
+    Unlike
+    {% else %}
+    Like
+    {% endif %}
+</button>
+{% endif %}
+</div>
+</div>
+{% endfor %}
+<div class="page-navigation">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+</div>
+
+{% block script %}
+<script src="{% static 'network/network.js' %}"></script>
+{% endblock %}
+
+{% endblock %}
+

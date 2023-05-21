@@ -1,0 +1,84 @@
+h1{
+    text-align: center;
+}
+
+#follow{
+    text-align: center;
+}
+
+#form-container{
+    border: 2px solid;
+    margin: auto;
+    margin-top: 7px;
+    padding: 7px;
+    width: 67%;
+}
+
+.post-container{
+    border: 2px solid;
+    margin: auto;
+    margin-top: 2px;
+    margin-bottom: 24px;
+    padding: 7px;
+    width: 62%;
+    background-color: rgb(241, 234, 234);
+}
+
+
+.follow-button {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 11px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 22px;
+    margin: auto;
+  }
+
+  .edit-button {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 7px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 22px;
+    margin: auto;
+  }
+
+.like-button {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 7px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 22px;
+    margin: auto;
+  }
+
+
+
+#edit-form{
+    width: 100%;
+}
+
+.post-title{
+    font-size: 2pc;
+    font-weight: bold;
+}
+
+.post-byline{
+    border-top: 1px solid grey;
+}
+
+.page-navigation{
+    text-align: center;
+}

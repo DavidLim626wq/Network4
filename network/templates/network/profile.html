@@ -1,0 +1,57 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+<h1> {{ name }}'s Profile </h1>
+<div id="follow">Follows {{num_followers}} {% if num_followers == 1 %} person {% else %} people {% endif %} <br>
+      Followed by <span id="nfollowers">{{num_following}} </span>{% if num_following == 1 %} person {% else %} people {% endif %} <br>
+
+      <!-- Button only shows if user is authenticated AND User is Not on their own profile phate--> 
+      {% if show_button %}
+      <div class="follow-button-container">
+      <button id="follow-button-{{name}}" class="follow-button" onClick="follow('{{name}}')">{{button_text}}</button>
+      </div>
+      {% endif %}
+</div>
+
+
+
+      
+
+{% for post in authorPosts %}
+<div class="post-container">
+      <div class="post-title">{{ post.postTitle }}
+      </div>
+
+      {% if user == post.postAuthor %}
+      <button id="edit-button-{{post.id}}" class="edit-button" onClick="toggle_edit2('{{post.id}}')">Edit Post</button>
+      {% endif %}
+
+      <div id="edit-container-{{post.id}}" style="display: none;">
+            <input id="save-edit-{{post.id}}" class="btn btn-primary btn-block" type="submit" value="Save Changes" onClick="save_edit('{{post.id}}')">     
+      </div>
+      <div id="post-body-{{post.id}}">{{ post.postBody }}</div>
+      <div class="post-byline">
+            Posted by <a href="{% url 'profile' post.postAuthor  %}">{{ post.postAuthor }}</a> on: {{ post.postTime }}
+      </div>
+      <div id="likes-{{post.id}}">
+            This post has <span id="nlikes-{{post.id}}">{{post.likes}}</span> likes.
+            {% if user != post.postAuthor %}
+<button id="like-button-{{post.id}}" class="like-button" onLoad="get_like_button_state('{{post.id}}')" onClick="like('{{post.id}}')">
+    {% if post.id in likedList %}
+    Unlike
+    {% else %}
+    Like
+    {% endif %}
+</button>
+{% endif %}
+            </div>
+</div>
+{% endfor %}
+
+{% block script %}
+<script src="{% static 'network/network.js' %}"></script>
+{% endblock %}
+
+{% endblock %}
+
