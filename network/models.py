@@ -19,7 +19,7 @@ class Post(models.Model):
     def serialize(self):
         return {"id": self.id, "likes": self.likes }
 
-class Profile(models.Model):
+class Followers(models.Model):
     profilename = models.ForeignKey(User, on_delete = models.CASCADE, related_name="profilename")
     following = models.ForeignKey(User, on_delete = models.CASCADE, related_name="following")
 

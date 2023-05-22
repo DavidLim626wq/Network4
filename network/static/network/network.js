@@ -56,6 +56,19 @@ function save_edit(id) {
     }
 }
 
+function deletePost(id){
+    e = document.querySelector(`#delete-${id}`).parentNode;
+    container = e.parentNode;
+    fetch('/delete/' + id, {
+        method: 'PUT',
+        body: JSON.stringify({
+            post: e.value
+        })
+    });
+    //remove post container
+    container.remove();
+}
+
 function like(id) {
 
     fetch('/like/' + id, {

@@ -58,10 +58,19 @@ def edit_post(request, id):
 
 
 @csrf_exempt
+def delete(request, id):
+    post_to_delete = Post.objects.get(id=id)
+    if request.method == "PUT":
+        post_to_delete.delete()
+        return HttpResponse(status=204)
+
+    return HttpResponse(status=400)
+
+@csrf_exempt
 def profile(request, username):
     user_id = User.objects.get(username=username)
-    p = Profile.objects.all().filter(profilename=user_id)
-    q = Profile.objects.all().filter(following=user_id)
+    p = Followers.objects.all().filter(profilename=user_id)
+    q = Followers.objects.all().filter(following=user_id)
 
     if request.user.is_authenticated:
         posts_liked_by_user = (
@@ -74,7 +83,7 @@ def profile(request, username):
     # allow follow/unfollow if user is logged in
     isFollower = False
     if request.user.is_authenticated:
-        isFollower = Profile.objects.filter(
+        isFollower = Followers.objects.filter(
             profilename=request.user, following=user_id).exists()
 
         # for a POST method, add the logged in as a follower
@@ -82,11 +91,11 @@ def profile(request, username):
             stuff = json.loads(request.body)
             if stuff.get("user"):
                 if not isFollower:
-                    newFollower = Profile(profilename=request.user, following=user_id)
+                    newFollower = Followers(profilename=request.user, following=user_id)
                     newFollower.save()
                     return HttpResponse(status=204)
                 else:
-                    Profile.objects.get(
+                    Followers.objects.get(
                         profilename=request.user, following=user_id).delete()
                     return HttpResponse(status=204)
 
@@ -113,7 +122,7 @@ def profile(request, username):
 @login_required
 def following(request):
     # Allow logged in user to see all posts of people he follows
-    followed_users = Profile.objects.filter(profilename=request.user)
+    followed_users = Followers.objects.filter(profilename=request.user)
     followed_posts = Post.objects.filter(
         postAuthor__in=followed_users.values("following_id")
     ).order_by("-postTime")

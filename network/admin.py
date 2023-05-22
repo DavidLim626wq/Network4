@@ -13,5 +13,5 @@ class LikedPostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(User)
-admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Followers, ProfileAdmin)
 admin.site.register(LikedPost, LikedPostAdmin)

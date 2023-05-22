@@ -40,7 +40,9 @@
 {% for post in page_obj %}
 
 <div class="post-container">
-<div class="post-title">{{ post.postTitle }}
+<div class="post-title">{{ post.postTitle }} 
+    
+    {% if user == post.postAuthor %} <img id="delete-{{post.id}}" onClick="deletePost('{{post.id}}')" src="{% static 'images/delete.png' %}" width="14", height="14">{% endif %}
 </div>
 {% if user == post.postAuthor %}
 <button id="edit-button-{{post.id}}" class="edit-button" onClick="toggle_edit2('{{post.id}}')">Edit Post</button>
