@@ -22,8 +22,7 @@ def index(request):
 
     if request.user.is_authenticated:
         posts_liked_by_user = (
-            LikedPost.objects.all()
-            .filter(liker=request.user)
+            LikedPost.objects.all().filter(liker=request.user)
             .values_list("post", flat=True))
     else:
         posts_liked_by_user = None
@@ -62,9 +61,7 @@ def edit_post(request, id):
 def profile(request, username):
     user_id = User.objects.get(username=username)
     p = Profile.objects.all().filter(profilename=user_id)
-    num_followers = len(p)
     q = Profile.objects.all().filter(following=user_id)
-    num_following = len(q)
 
     if request.user.is_authenticated:
         posts_liked_by_user = (
@@ -107,8 +104,8 @@ def profile(request, username):
             "follows": p,
             "following": q,
             "likedList": posts_liked_by_user,
-            "num_followers": num_followers,
-            "num_following": num_following,
+            "num_followers": len(p),
+            "num_following": len(q),
         },
     )
 
@@ -135,7 +132,6 @@ def following(request):
         },
     )
 
-
 @csrf_exempt
 def like(request, id):
     post = Post.objects.get(id=id)
@@ -150,19 +146,15 @@ def like(request, id):
     if request.method == "PUT":
         if not liked_state:
             newLikedPost = LikedPost(post=post, liker=request.user)
-            post.likes += 1
-            post.save()
-            newLikedPost.save()
-            data = dict(post.serialize())
-            data["btnState"] = liked_state
-            return JsonResponse(data)
+            post.likes += 1            
+            newLikedPost.save()          
         else:
             LikedPost.objects.get(post=post, liker=request.user).delete()
             post.likes -= 1
-            post.save()
-            data = dict(post.serialize())
-            data["btnState"] = liked_state
-            return JsonResponse(data)
+        post.save()
+        data = dict(post.serialize())
+        data["btnState"] = liked_state
+        return JsonResponse(data)
 
     return HttpResponse(status=204)
 

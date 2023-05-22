@@ -3,8 +3,11 @@
 
 {% block body %}
 <h1> {{ name }}'s Profile </h1>
-<div id="follow">Follows {{num_followers}} {% if num_followers == 1 %} person {% else %} people {% endif %} <br>
-      Followed by <span id="nfollowers">{{num_following}} </span>{% if num_following == 1 %} person {% else %} people {% endif %} <br>
+<div id="follow">
+      Follows {{num_followers}} {% if num_followers == 1 %} person {% else %} people{% endif %}.
+      
+      <br>
+      Followed by <span id="nfollowers">{{num_following}} {% if num_following == 1 %} person {% else %} people {% endif %}</span> <br>
 
       <!-- Button only shows if user is authenticated AND User is Not on their own profile phate--> 
       {% if show_button %}

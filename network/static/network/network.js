@@ -1,18 +1,3 @@
-/*
-function toggle_edit(id) {
-    //toggles the appearance of the Edit Box;
-    buttonString = document.querySelector(`#edit-button-${id}`).innerHTML;
-    if (buttonString === "Edit Post") {
-        document.querySelector(`#edit-button-${id}`).innerHTML = 'Cancel';
-        document.querySelector(`#edit-container-${id}`).style.display = 'block';
-        document.querySelector(`#post-body-${id}`).style.display = 'none';
-    } else {
-        document.querySelector(`#edit-button-${id}`).innerHTML = 'Edit Post';
-        document.querySelector(`#edit-container-${id}`).style.display = 'none';
-        document.querySelector(`#post-body-${id}`).style.display = 'block';
-    }
-}*/
-
 function toggle_edit2(id) {
     //toggles the appearance of the Edit Box;
     buttonString = document.querySelector(`#edit-button-${id}`).innerHTML;
@@ -105,9 +90,12 @@ function follow(user) {
     nFollowers = parseInt(document.querySelector("#nfollowers").textContent);
     newBtnLabel = (button.textContent === 'Unfollow') ? 'Follow' : 'Unfollow';
     if (button.textContent === 'Follow') {
-        document.querySelector("#nfollowers").textContent = nFollowers + 1
+        const newFollowers = nFollowers + 1;
+        document.querySelector("#nfollowers").textContent = nFollowers == 1 ? newFollowers + " people" : newFollowers + " person";
     } else {
-        document.querySelector("#nfollowers").textContent = nFollowers - 1
+        const newFollowers = nFollowers - 1;
+        const newStr = nFollowers == 1 ? newFollowers + " people" : newFollowers + " person";
+        document.querySelector("#nfollowers").textContent = nFollowers == 1 ? newFollowers + " people" : newFollowers + " person";
     }
     button.innerHTML = newBtnLabel;
 }
