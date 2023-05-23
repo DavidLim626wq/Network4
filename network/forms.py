@@ -14,5 +14,5 @@ class NewPostForm(forms.ModelForm):
         }
         widgets = {
             'postTitle' : forms.TextInput(attrs={'class' : 'form-control'}),
-            'postBody' : forms.Textarea(attrs={'class' : 'form-control', "rows" : "7", "style" : "resize: none;"})            
+            'postBody' : forms.Textarea(attrs={'class' : 'form-control', "rows" : "5", "style" : "resize: none;", "maxlength": "500"})            
         }

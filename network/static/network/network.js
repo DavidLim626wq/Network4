@@ -3,9 +3,11 @@ function toggle_edit2(id) {
     buttonString = document.querySelector(`#edit-button-${id}`).innerHTML;
     editContainer = document.querySelector(`#edit-container-${id}`);
     currentText = document.querySelector(`#post-body-${id}`).innerText;
+    //only a single TextArea can exist at a time, because only one post is edited at a time.
     const node = document.createElement("textarea");
             node.id = "edit-form";
-            node.rows = "7";
+            node.rows = "6";
+            node.maxLength = "500";
             node.style = "resize: none;";
             node.innerHTML = currentText;
 
@@ -26,19 +28,18 @@ function toggle_edit2(id) {
             document.querySelector(`#post-body-${id}`).style.display = 'block';
             document.querySelector(`#edit-button-${id}`).innerHTML = 'Edit Post';
         } else {
-            alert("You are already editing another post");
+            displayAlert("You are already editing another post.");
         }
         
     }
 }
-
 
 function save_edit(id) {
     //toggles the appearance of the Edit Box
     e = document.querySelector("#edit-form");
     new_postBody = e.value;
     if (new_postBody.length === 0) {
-        alert("Your post contains no text.");
+        displayAlert("Your post contains no text.");;
     } else {
         fetch('/edit_post/' + id, {
             method: 'PUT',
@@ -46,8 +47,7 @@ function save_edit(id) {
                 post: e.value
             })
         });
-        e = document.querySelector("#edit-form");
-        e.remove();
+        document.querySelector("#edit-form").remove;
         document.querySelector(`#post-body-${id}`).innerHTML = e.value;
         document.querySelector(`#edit-container-${id}`).style.display = 'none';
         document.querySelector(`#post-body-${id}`).style.display = 'block';
@@ -85,10 +85,6 @@ function like(id) {
         });
 }
 
-function get_like_button_state(id) {
-    document.querySelector(`#like-button-${id}`).innerHTML = "BTZZT";
-}
-
 function follow(user) {
 
     fetch('/profile/' + user, {
@@ -111,4 +107,11 @@ function follow(user) {
         document.querySelector("#nfollowers").textContent = nFollowers == 1 ? newFollowers + " people" : newFollowers + " person";
     }
     button.innerHTML = newBtnLabel;
+}
+
+function displayAlert(alertString){
+    var x = document.getElementById("alertBox");
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    x.innerHTML = alertString;
 }

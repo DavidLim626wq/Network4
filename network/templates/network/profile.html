@@ -24,6 +24,7 @@
 {% for post in authorPosts %}
 <div class="post-container">
       <div class="post-title">{{ post.postTitle }}
+            {% if user == post.postAuthor %} <img id="delete-{{post.id}}" title="Click to delete" onClick="deletePost('{{post.id}}')" src="{% static 'images/delete.png' %}" width="14", height="14">{% endif %}
       </div>
 
       {% if user == post.postAuthor %}
