@@ -4,28 +4,7 @@
 {% block body %}
 <h1> Posts by people you follow </h1>
 {% for post in followed_posts %}
-<div class="post-container">
-      <div class="post-title">{{ post.postTitle }}
-      </div>
-      <div id="post-body-{{post.id}}">{{ post.postBody }}</div>
-      <div class="post-byline">
-            Posted by <a href="{% url 'profile' post.postAuthor  %}">{{ post.postAuthor }}</a> on: {{ post.postTime }}
-      </div>
-<div id="likes-{{post.id}}">
-This post has <span id="nlikes-{{post.id}}">{{post.likes}}</span> likes.
-
-<!-- show only if User is not the Post Author-->
-{% if user != post.postAuthor %}
-<button id="like-button-{{post.id}}" class="like-button" onLoad="get_like_button_state('{{post.id}}')" onClick="like('{{post.id}}')">
-    {% if post.id in likedList %}
-    Unlike
-    {% else %}
-    Like
-    {% endif %}
-</button>
-{% endif %}
-</div>
-</div>
+{% include "singlepost.html" %}
 {% endfor %}
 
 {% block script %}

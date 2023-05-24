@@ -16,6 +16,7 @@ function toggle_edit2(id) {
         if (buttonString === "Edit Post") {
             //opens an edit box if there are no other edit boxes
             document.querySelector(`#edit-button-${id}`).innerHTML = 'Cancel';
+            document.querySelector(`#edit-icon-${id}`).setAttribute("src", "/static/images/cancel.png");
             editContainer.prepend(node);
             document.querySelector(`#edit-container-${id}`).style.display = 'block';
             document.querySelector(`#post-body-${id}`).style.display = 'none';
@@ -27,6 +28,7 @@ function toggle_edit2(id) {
             document.querySelector(`#edit-container-${id}`).style.display = 'none';
             document.querySelector(`#post-body-${id}`).style.display = 'block';
             document.querySelector(`#edit-button-${id}`).innerHTML = 'Edit Post';
+            document.querySelector(`#edit-icon-${id}`).setAttribute("src", "/static/images/edit.png");
         } else {
             displayAlert("You are already editing another post.");
         }
@@ -57,8 +59,8 @@ function save_edit(id) {
 }
 
 function deletePost(id){
-    e = document.querySelector(`#delete-${id}`).parentNode;
-    container = e.parentNode;
+    e = document.querySelector(`#post-container-${id}`);
+    console.log(e);
     fetch('/delete/' + id, {
         method: 'PUT',
         body: JSON.stringify({
@@ -66,7 +68,7 @@ function deletePost(id){
         })
     });
     //remove post container
-    container.remove();
+    e.remove();
 }
 
 function like(id) {

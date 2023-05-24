@@ -1,0 +1,62 @@
+{% load static %}
+<div class="post-container" id="post-container-{{post.id}}">        
+    <div class="post-title">{{ post.postTitle }} 
+        {% if user == post.postAuthor %}
+    
+        <span class="post-buttons">
+        <button hidden id="edit-button-{{post.id}}" class="edit-button" onClick="toggle_edit2('{{post.id}}')">Edit Post</button>        
+        <a href="#exampleModal" data-toggle="modal"><img id="delete-{{post.id}}" title="Click to delete" src="{% static 'images/delete.png' %}" width="20", height="20"></a>
+        
+        <img id="edit-icon-{{post.id}}" title="Click to edit" onClick="toggle_edit2('{{post.id}}')" src="{% static 'images/edit.png' %}" width="20", height="20">
+        <div id="alertBox"></div>
+
+        </span>
+
+        <!-- modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  You are about to delete a post.  This cannot be undone.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="deletePost('{{post.id}}')">Confirm</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+    
+    </div>
+
+    <div id="edit-container-{{post.id}}" style="display: none;">
+          <input id="save-edit-{{post.id}}" class="btn btn-primary btn-block" type="submit" value="Save Changes" onClick="save_edit('{{post.id}}')">     
+    </div>
+    <div id="post-body-{{post.id}}"> {{ post.postBody }} </div>
+    <div class="post-byline">
+    Posted by <a href="{% url 'profile' post.postAuthor  %}">{{ post.postAuthor }}</a> on: {{ post.postTime }}
+    </div>
+    
+    <div id="likes-{{post.id}}">
+        
+    This post has <span id="nlikes-{{post.id}}">{{post.likes}}</span> likes.
+    <!-- show only if User is not the Post Author-->
+    {% if user != post.postAuthor and user.is_authenticated%}
+    <button id="like-button-{{post.id}}" class="like-button" onLoad="get_like_button_state('{{post.id}}')" onClick="like('{{post.id}}')">
+        {% if post.id in likedList %}
+        Unlike
+        {% else %}
+        Like
+        {% endif %}
+    </button>
+    {% endif %}
+    </div>
+    </div>
